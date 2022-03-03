@@ -1,0 +1,27 @@
+localhost:80 {
+  @django_matcher {
+    not path /media/* /static/*
+  }
+
+  handle_path /static/* {
+    root * /app_staticfiles
+    file_server browse
+  }
+
+  handle_path /media/* {
+    root * /app_media
+    file_server browse
+  }
+
+  handle @django_matcher {
+    reverse_proxy web:8000
+  }
+
+  log {
+    output file /data/log/access.log {
+      roll_size 100MiB
+      roll_keep 10
+      roll_keep_for 30d
+    }
+  }
+}
