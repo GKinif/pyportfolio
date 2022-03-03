@@ -51,6 +51,14 @@ django = ">=2.2"
 pytz = "*"
 
 [[package]]
+name = "pygments"
+version = "2.11.2"
+description = "Pygments is a syntax highlighting package written in Python."
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[[package]]
 name = "pytz"
 version = "2021.3"
 description = "World timezone definitions, modern and historical"
@@ -77,7 +85,7 @@ python-versions = ">=2"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "b901b20aeefe8f4be8897bb3a50b168f0f808cf5e2d55556b5f9cf2da5bd010e"
+content-hash = "6a95a161f6d9a8de867226d9da8b0945aef489561f08fbd26c488a1bf2b3e130"
 
 [metadata.files]
 asgiref = [
@@ -109,6 +117,10 @@ django = [
 djangorestframework = [
     {file = "djangorestframework-3.13.1-py3-none-any.whl", hash = "sha256:24c4bf58ed7e85d1fe4ba250ab2da926d263cd57d64b03e8dcef0ac683f8b1aa"},
     {file = "djangorestframework-3.13.1.tar.gz", hash = "sha256:0c33407ce23acc68eca2a6e46424b008c9c02eceb8cf18581921d0092bc1f2ee"},
+]
+pygments = [
+    {file = "Pygments-2.11.2-py3-none-any.whl", hash = "sha256:44238f1b60a76d78fc8ca0528ee429702aae011c265fe6a8dd8b63049ae41c65"},
+    {file = "Pygments-2.11.2.tar.gz", hash = "sha256:4e426f72023d88d03b2fa258de560726ce890ff3b630f88c21cbb8b2503b8c6a"},
 ]
 pytz = [
     {file = "pytz-2021.3-py2.py3-none-any.whl", hash = "sha256:3672058bc3453457b622aab7a1c3bfd5ab0bdae451512f6cf25f64ed37f5b87c"},
