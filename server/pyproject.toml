@@ -9,6 +9,7 @@ python = "^3.8"
 Django = "^4.0.3"
 djangorestframework = "^3.13.1"
 Pygments = "^2.11.2"
+djoser = "^2.1.0"
 
 [tool.poetry.dev-dependencies]
 
