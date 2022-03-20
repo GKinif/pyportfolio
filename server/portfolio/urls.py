@@ -18,6 +18,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Add auth to browserable api
+    path('api-auth/', include('rest_framework.urls')),
+    # api auth
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
     path('api/users/', include('accounts.urls')),
