@@ -32,6 +32,8 @@ class Snippet(models.Model):
         lexer = get_lexer_by_name(self.language)
         linenos = 'table' if self.linenos else False
         options = {'title': self.title} if self.title else {}
-        formatter = HtmlFormatter(style=self.style, linenos=linenos, full=True, **options)
+        formatter = HtmlFormatter(style=self.style, linenos=linenos, classprefix="snippet", full=True, wrapcode=True,
+                                  nobackground=True, **options)
+        formatter.get_style_defs("td.code")
         self.highlighted = highlight(self.code, lexer, formatter)
         super().save(*args, **kwargs)
