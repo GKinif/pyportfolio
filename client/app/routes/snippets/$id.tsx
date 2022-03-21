@@ -1,12 +1,13 @@
-import { json, useLoaderData, LoaderFunction } from "remix";
+import {json, useLoaderData, LoaderFunction} from "remix";
 import {getSnippet, ApiSnippet, getSnippetHighlight} from "~/services/snippet";
+import {Paper, Title} from "@mantine/core";
 
 interface Data {
   snippet: ApiSnippet;
   highlight: string;
 }
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({params}) => {
   const snippet = await getSnippet(params.id ?? '');
   const highlight = await getSnippetHighlight(params.id ?? '');
 
@@ -20,9 +21,9 @@ export default function Snippet() {
 
   return (
     <main>
-      <h1>Some Snippet: {data.snippet.title}</h1>
+      <Title order={1}>{data.snippet.title}</Title>
 
-      <div dangerouslySetInnerHTML={{__html: data.highlight}} />
+      <Paper shadow="sm" radius="md" p="md" withBorder dangerouslySetInnerHTML={{__html: data.highlight}}/>
     </main>
   );
 }
