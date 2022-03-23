@@ -6,9 +6,9 @@ import {
   Scripts,
   ScrollRestoration,
 } from "remix";
-import type {MetaFunction} from "remix";
-import {AppShell, MantineProvider} from '@mantine/core';
-import {Navigation} from "~/components/Navigation";
+import type { MetaFunction } from "remix";
+import { AppShell, Container, MantineProvider } from "@mantine/core";
+import { Navigation } from "~/components/Navigation";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -19,24 +19,23 @@ export const meta: MetaFunction = () => ({
 export default function App() {
   return (
     <html lang="en">
-    <head>
-      <Meta/>
-      <Links/>
-    </head>
-    <body>
-    <MantineProvider withNormalizeCSS withGlobalStyles>
-      <AppShell
-        padding="lg"
-        header={<Navigation/>}
-      >
-        <Outlet/>
-      </AppShell>
-    </MantineProvider>
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <MantineProvider withNormalizeCSS withGlobalStyles>
+          <AppShell padding="lg" header={<Navigation />}>
+            <Container>
+              <Outlet />
+            </Container>
+          </AppShell>
+        </MantineProvider>
 
-    <ScrollRestoration/>
-    <Scripts/>
-    <LiveReload/>
-    </body>
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
     </html>
   );
 }

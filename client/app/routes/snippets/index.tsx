@@ -1,10 +1,11 @@
-import {json, Link, useLoaderData} from "remix";
-import {Anchor, List} from '@mantine/core';
+import { json, Link, useLoaderData } from "remix";
+import { Anchor, List } from "@mantine/core";
 
-import {getSnippets, getSnippetsResponse} from "~/services/snippet";
+import { getSnippets, getSnippetsResponse } from "~/services/snippet";
 
 export const loader = async () => {
-  return json(await getSnippets());
+  const response = await getSnippets();
+  return json(response.data);
 };
 
 export default function Snippets() {
