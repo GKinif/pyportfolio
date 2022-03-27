@@ -1,10 +1,9 @@
-import { Box, Container, Group, Header } from "@mantine/core";
+import { Button, Container, Group, Header } from "@mantine/core";
 import { Link, NavLink } from "remix";
 import { Anchor } from "@mantine/core";
 import { ReactNode } from "react";
 import { CSSObject } from "@mantine/styles/lib/tss";
 import { MantineTheme } from "@mantine/styles/lib/theme/types/MantineTheme";
-import { selectCurrentUser, useUserStore } from "~/store/useStore";
 
 interface LinkProps {
   children: ReactNode;
@@ -27,8 +26,12 @@ const AppLink = ({ children, to, sx }: LinkProps) => {
   );
 };
 
-export const Navigation = () => {
-  const currentUser = useUserStore(selectCurrentUser);
+interface Props {
+  currentUser?: string;
+  onLogout: () => void;
+}
+
+export const Navigation = ({ currentUser, onLogout }: Props) => {
   return (
     <Header height={60} p="xs">
       <Container sx={{ display: "flex", alignItems: "center", height: "100%" }}>
@@ -42,7 +45,9 @@ export const Navigation = () => {
 
         <Group>
           {currentUser ? (
-            <AppLink to="/login">Logout</AppLink>
+            <Button variant="subtle" onClick={onLogout}>
+              Logout
+            </Button>
           ) : (
             <AppLink to="/login">Login</AppLink>
           )}

@@ -25,3 +25,7 @@ export const getCurrentUser = async (): Promise<
 > => {
   return axiosInstance.get("/auth/users/me");
 };
+
+export const postLogout = async (): Promise<AxiosResponse<unknown>> => {
+  return axiosInstance.post("/auth/token/logouttt", {});
+};

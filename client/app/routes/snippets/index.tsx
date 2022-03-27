@@ -5,6 +5,7 @@ import { getSnippets, getSnippetsResponse } from "~/services/snippet";
 
 export const loader = async () => {
   const response = await getSnippets();
+  // @TODO: handle 401
   return json(response.data);
 };
 
