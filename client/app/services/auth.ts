@@ -15,3 +15,13 @@ export const postLogin = async (
 ): Promise<AxiosResponse<postLoginResponse>> => {
   return axiosInstance.post("/auth/token/login", data);
 };
+
+export interface getCurrentUserResponse {
+  id: number;
+  email: string;
+}
+export const getCurrentUser = async (): Promise<
+  AxiosResponse<getCurrentUserResponse>
+> => {
+  return axiosInstance.get("/auth/users/me");
+};
