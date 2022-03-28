@@ -4,7 +4,6 @@ import {
   json,
   useActionData,
   useTransition,
-  useNavigate,
   redirect,
   LoaderFunction,
 } from "remix";
@@ -18,14 +17,8 @@ import {
   Group,
   Text,
 } from "@mantine/core";
-import { getCurrentUser, postLogin, PostLoginData } from "~/services/auth";
+import { postLogin, PostLoginData } from "~/services/auth";
 import { removeAuthToken, setAuthToken } from "~/services/axiosInstance";
-import {
-  selectCurrentUser,
-  selectSetCurrentUser,
-  useUserStore,
-} from "~/store/useStore";
-import { useEffect } from "react";
 import { object, string, ZodError } from "zod";
 
 const loginSchema = object({
@@ -109,14 +102,14 @@ export default function Login() {
   // transition states to help us build pending and optimistic UI.
   const transition = useTransition();
   const actionData = useActionData();
-  console.log("actionData: ", actionData);
+  const loading = transition.state === "submitting";
 
   return (
     <main>
       <h1>Login</h1>
 
       <Paper sx={{ position: "relative" }}>
-        <LoadingOverlay visible={transition.state === "submitting"} />
+        <LoadingOverlay visible={loading} />
         <Form method="post">
           <TextInput
             name="email"
@@ -147,11 +140,7 @@ export default function Login() {
           />
 
           <Group>
-            <Button
-              type="submit"
-              variant="outline"
-              disabled={transition.state === "submitting"}
-            >
+            <Button type="submit" variant="outline" disabled={loading}>
               {transition.state === "submitting" ? "Submitting..." : "Submit"}
             </Button>
 
