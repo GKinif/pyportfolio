@@ -1,23 +1,26 @@
 import {
-  ActionFunction,
   json,
   Links,
   LiveReload,
   LoaderFunction,
   Meta,
   Outlet,
-  redirect,
   Scripts,
   ScrollRestoration,
   useLoaderData,
   useSubmit,
 } from "remix";
 import type { MetaFunction } from "remix";
-import { AppShell, Container, MantineProvider } from "@mantine/core";
+import {
+  AppShell,
+  Container,
+  MantineProvider,
+  Notification,
+} from "@mantine/core";
 import { Navigation } from "~/components/Navigation";
-import { destroySession, getSession } from "~/session";
-import { getCurrentUser, postLogout } from "~/services/auth";
-import { useCallback } from "react";
+import { commitSession, getSession } from "~/session";
+import { getCurrentUser } from "~/services/auth";
+import { useCallback, useState } from "react";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -27,20 +30,41 @@ export const meta: MetaFunction = () => ({
 
 interface Data {
   currentUser?: string;
+  error?: any;
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
 
+  const data = { error: session.get("error") };
+
   if (session.has("userToken")) {
     try {
       const userResponse = await getCurrentUser();
-      return json({ currentUser: userResponse.data.email });
+      return json(
+        { ...data, currentUser: userResponse.data.email },
+        {
+          headers: {
+            // only necessary with cookieSessionStorage
+            "Set-Cookie": await commitSession(session),
+          },
+        }
+      );
     } catch (error) {
-      return null;
+      return json(data, {
+        headers: {
+          // only necessary with cookieSessionStorage
+          "Set-Cookie": await commitSession(session),
+        },
+      });
     }
   }
-  return null;
+  return json(data, {
+    headers: {
+      // only necessary with cookieSessionStorage
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 };
 
 export default function App() {
@@ -50,6 +74,7 @@ export default function App() {
   const handleLogoutClick = useCallback(() => {
     submit(null, { method: "post", action: "/logout" });
   }, []);
+
   return (
     <html lang="en">
       <head>
@@ -68,6 +93,17 @@ export default function App() {
             }
           >
             <Container>
+              {data.error ? (
+                <Notification
+                  title="Error"
+                  color="red"
+                  onClose={() => {}}
+                  disallowClose
+                  sx={{ position: "absolute" }}
+                >
+                  {data.error}
+                </Notification>
+              ) : null}
               <Outlet />
             </Container>
           </AppShell>

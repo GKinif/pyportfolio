@@ -27,5 +27,5 @@ export const getCurrentUser = async (): Promise<
 };
 
 export const postLogout = async (): Promise<AxiosResponse<unknown>> => {
-  return axiosInstance.post("/auth/token/logouttt", {});
+  return axiosInstance.post("/auth/token/logout", {});
 };
