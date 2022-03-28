@@ -9,9 +9,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   try {
     removeAuthToken();
-    const response = await postLogout();
-
-    console.log("response: ", response.data);
+    await postLogout();
 
     // Login succeeded, send them to the home page.
     return redirect("/", {

@@ -6,6 +6,7 @@ import {
   useTransition,
   redirect,
   LoaderFunction,
+  useSearchParams,
 } from "remix";
 import { getSession, commitSession } from "../session";
 import {
@@ -50,8 +51,12 @@ export const action: ActionFunction = async ({ request }) => {
     setAuthToken(response.data.auth_token);
     session.set("userToken", response.data.auth_token);
 
+    const url = new URL(request.url);
+    const backTo = url.searchParams.get("backTo");
+    const redirectUrl = backTo ? backTo : "/";
+
     // Login succeeded, send them to the home page.
-    return redirect("/", {
+    return redirect(redirectUrl, {
       headers: {
         "Set-Cookie": await commitSession(session),
       },
@@ -60,7 +65,6 @@ export const action: ActionFunction = async ({ request }) => {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
-      console.log("error.response?.data: ", error.response?.data);
       return json({
         errors: error.response?.data,
         values: { email: values.email },
@@ -69,14 +73,12 @@ export const action: ActionFunction = async ({ request }) => {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
       // http.ClientRequest in node.js
-      console.log("request error");
       return json({
         errors: { non_field_errors: ["Unable to reach server"] },
         values: { email: values.email },
       });
     } else {
       // Something happened in setting up the request that triggered an Error
-      console.log("other error");
       return json({
         errors: { non_field_errors: ["Unexpected errors"] },
         values: { email: values.email },
@@ -100,9 +102,11 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function Login() {
   // when the form is being processed on the server, this returns different
   // transition states to help us build pending and optimistic UI.
+  const [searchParams] = useSearchParams();
   const transition = useTransition();
   const actionData = useActionData();
   const loading = transition.state === "submitting";
+  const redirectUrl = searchParams.get("backTo");
 
   return (
     <main>
@@ -110,7 +114,10 @@ export default function Login() {
 
       <Paper sx={{ position: "relative" }}>
         <LoadingOverlay visible={loading} />
-        <Form method="post">
+        <Form
+          method="post"
+          action={`/login${redirectUrl ? `?backTo=${redirectUrl}` : ""}`}
+        >
           <TextInput
             name="email"
             placeholder="youremail@email.com"

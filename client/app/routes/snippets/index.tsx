@@ -1,12 +1,18 @@
-import { json, Link, useLoaderData } from "remix";
+import { json, Link, redirect, useLoaderData } from "remix";
 import { Anchor, List } from "@mantine/core";
 
 import { getSnippets, getSnippetsResponse } from "~/services/snippet";
 
 export const loader = async () => {
-  const response = await getSnippets();
-  // @TODO: handle 401
-  return json(response.data);
+  try {
+    const response = await getSnippets();
+    return json(response.data);
+  } catch (error: any) {
+    if (error.response.status === 401) {
+      return redirect("/login?backTo=/snippets");
+    }
+    return redirect("/");
+  }
 };
 
 export default function Snippets() {
