@@ -11,16 +11,12 @@ import {
   useSubmit,
 } from "remix";
 import type { MetaFunction } from "remix";
-import {
-  AppShell,
-  Container,
-  MantineProvider,
-  Notification,
-} from "@mantine/core";
+import { AppShell, Container, MantineProvider } from "@mantine/core";
 import { Navigation } from "~/components/Navigation";
 import { commitSession, getSession } from "~/session";
 import { getCurrentUser } from "~/services/auth";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
+import { Notification } from "~/components/Notification";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -30,13 +26,20 @@ export const meta: MetaFunction = () => ({
 
 interface Data {
   currentUser?: string;
-  error?: any;
+  notification?: {
+    severity: "error" | "warning" | "info" | "success";
+    title: string;
+    message: string;
+  };
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
+  const sessionNotification = session.get("notification");
 
-  const data = { error: session.get("error") };
+  const data = {
+    notification: sessionNotification ? JSON.parse(sessionNotification) : null,
+  };
 
   if (session.has("userToken")) {
     try {
@@ -92,18 +95,14 @@ export default function App() {
               />
             }
           >
+            {data.notification ? (
+              <Notification
+                severity={data.notification.severity}
+                title={data.notification.title}
+                message={data.notification.message}
+              />
+            ) : null}
             <Container>
-              {data.error ? (
-                <Notification
-                  title="Error"
-                  color="red"
-                  onClose={() => {}}
-                  disallowClose
-                  sx={{ position: "absolute" }}
-                >
-                  {data.error}
-                </Notification>
-              ) : null}
               <Outlet />
             </Container>
           </AppShell>

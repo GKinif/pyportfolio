@@ -1,6 +1,22 @@
 import { AxiosResponse } from "axios";
 import { axiosInstance } from "~/services/axiosInstance";
 
+export interface CreateUserData {
+  email: string;
+  password: string;
+  re_password: string;
+}
+
+interface CreateUserResponse {
+  email: string;
+}
+
+export const createUser = async (
+  data: CreateUserData
+): Promise<AxiosResponse<CreateUserResponse>> => {
+  return axiosInstance.post("/auth/users/", data);
+};
+
 export interface PostLoginData {
   email: string;
   password: string;

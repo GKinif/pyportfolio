@@ -49,7 +49,10 @@ export const Navigation = ({ currentUser, onLogout }: Props) => {
               Logout
             </Button>
           ) : (
-            <AppLink to="/login">Login</AppLink>
+            <>
+              <AppLink to="/login">Login</AppLink>
+              <AppLink to="/register">Register</AppLink>
+            </>
           )}
         </Group>
       </Container>

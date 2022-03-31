@@ -6,9 +6,8 @@ import {
   useTransition,
   redirect,
   LoaderFunction,
-  useSearchParams,
 } from "remix";
-import { getSession, commitSession } from "../session";
+import { commitSession, getSession } from "../session";
 import {
   Button,
   Paper,
@@ -18,12 +17,12 @@ import {
   Group,
   Text,
 } from "@mantine/core";
-import { postLogin, PostLoginData } from "~/services/auth";
+import { createUser, CreateUserData } from "~/services/auth";
 import { removeAuthToken, setAuthToken } from "~/services/axiosInstance";
 import { object, string, ZodError } from "zod";
 import { createNotification } from "~/components/Notification";
 
-const loginSchema = object({
+const registerSchema = object({
   email: string().email().min(5),
   password: string().min(5),
 });
@@ -35,7 +34,7 @@ export const action: ActionFunction = async ({ request }) => {
   const values = Object.fromEntries(formData);
 
   try {
-    loginSchema.parse(values);
+    registerSchema.parse(values);
   } catch (error) {
     if (error instanceof ZodError) {
       const formErrors: any = error.flatten();
@@ -48,22 +47,16 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   try {
-    const response = await postLogin(values as unknown as PostLoginData);
-    setAuthToken(response.data.auth_token);
-    session.set("userToken", response.data.auth_token);
-
-    const url = new URL(request.url);
-    const backTo = url.searchParams.get("backTo");
-    const redirectUrl = backTo ? backTo : "/";
+    await createUser(values as unknown as CreateUserData);
 
     createNotification(session, {
-      severity: "success",
+      severity: "info", // error | warning | info | success
       title: "Congratulation",
-      message: "You are now logged in",
+      message: "You can login with your credentials",
     });
 
     // Login succeeded, send them to the home page.
-    return redirect(redirectUrl, {
+    return redirect("/login", {
       headers: {
         "Set-Cookie": await commitSession(session),
       },
@@ -109,22 +102,17 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function Login() {
   // when the form is being processed on the server, this returns different
   // transition states to help us build pending and optimistic UI.
-  const [searchParams] = useSearchParams();
   const transition = useTransition();
   const actionData = useActionData();
   const loading = transition.state === "submitting";
-  const redirectUrl = searchParams.get("backTo");
 
   return (
     <main>
-      <h1>Login</h1>
+      <h1>Register</h1>
 
       <Paper sx={{ position: "relative" }}>
         <LoadingOverlay visible={loading} />
-        <Form
-          method="post"
-          action={`/login${redirectUrl ? `?backTo=${redirectUrl}` : ""}`}
-        >
+        <Form method="post">
           <TextInput
             name="email"
             placeholder="youremail@email.com"
