@@ -1,0 +1,508 @@
+[
+  {
+    "model": "budgets.budget",
+    "pk": 1,
+    "fields": {
+      "title": "Simple Budget",
+      "description": "First budget",
+      "created": "2022-04-03T14:34:11.801Z",
+      "updated": "2022-04-03T14:34:11.801Z",
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.category",
+    "pk": 1,
+    "fields": {
+      "title": "Housing",
+      "description": "Anything you pay toward keeping a roof over your head is considered a housing expense. That includes rent or mortgage payments, property taxes, HOA dues, and home maintenance costs. For most budgeters, this category is by far the biggest.",
+      "created": "2022-03-31T21:22:00.978Z",
+      "updated": "2022-03-31T21:22:00.978Z"
+    }
+  },
+  {
+    "model": "budgets.category",
+    "pk": 2,
+    "fields": {
+      "title": "Transportation",
+      "description": "Regardless of your location or lifestyle, everyone needs to get from point A to point B. Typically, this budget category includes car payments, registration and DMV fees, gas, maintenance, parking, tolls, and public transit.",
+      "created": "2022-03-31T21:22:17.683Z",
+      "updated": "2022-03-31T21:22:17.683Z"
+    }
+  },
+  {
+    "model": "budgets.category",
+    "pk": 3,
+    "fields": {
+      "title": "Groceries",
+      "description": "Groceries, of course, are an essential expense for every family",
+      "created": "2022-03-31T21:22:50.087Z",
+      "updated": "2022-03-31T21:22:50.087Z"
+    }
+  },
+  {
+    "model": "budgets.category",
+    "pk": 4,
+    "fields": {
+      "title": "Restaurant",
+      "description": "Restaurant meals, work lunches, food delivery, etc.",
+      "created": "2022-03-31T21:23:33.293Z",
+      "updated": "2022-03-31T21:23:33.293Z"
+    }
+  },
+  {
+    "model": "budgets.category",
+    "pk": 5,
+    "fields": {
+      "title": "Utilities",
+      "description": "Water, electricity, and HVAC (heating, ventilation, and air conditioning) are vital to practically every well-functioning household. Your utilities category should cover all the expenses that keep these services up and running.\r\n\r\nThat includes your gas, electricity, water, and sewage bills. For most families, it will also include your cell phone, cable, and internet expenses.",
+      "created": "2022-03-31T21:24:08.775Z",
+      "updated": "2022-03-31T21:24:08.775Z"
+    }
+  },
+  {
+    "model": "budgets.category",
+    "pk": 6,
+    "fields": {
+      "title": "Insurance",
+      "description": "This is one home budget category that depends very much on your own preferences. \r\n\r\nOther budgeters include insurance separately as one of their basic budget categories. In that case, it should include all your insurance payments, such as:\r\n\r\n- health insurance\r\n- homeowner’s or renter’s insurance\r\n- home warranties or protection plans\r\n- auto insurance\r\n- life insurance\r\n- disability insurance",
+      "created": "2022-03-31T21:25:19.690Z",
+      "updated": "2022-03-31T21:25:19.690Z"
+    }
+  },
+  {
+    "model": "budgets.category",
+    "pk": 7,
+    "fields": {
+      "title": "Medical & Healthcare",
+      "description": "Maintaining your health and well-being is essential, so it’s critical to include enough in your budget to cover these costs. If you plan for routine medical care, you’ll live a much healthier life over the long run.\r\n\r\nThis budget category includes anything you might spend on healthcare, such as:\r\n\r\nout-of-pocket costs for primary care\r\nspecialty care (dermatologists, psychologists, etc.)\r\ndental care\r\nurgent care\r\nprescriptions\r\nmedical devices and supplies",
+      "created": "2022-03-31T21:25:39.573Z",
+      "updated": "2022-03-31T21:25:39.573Z"
+    }
+  },
+  {
+    "model": "budgets.category",
+    "pk": 8,
+    "fields": {
+      "title": "Saving",
+      "description": "Money put aside",
+      "created": "2022-03-31T21:26:09.803Z",
+      "updated": "2022-03-31T21:26:09.803Z"
+    }
+  },
+  {
+    "model": "budgets.category",
+    "pk": 9,
+    "fields": {
+      "title": "Investment",
+      "description": "stuff",
+      "created": "2022-03-31T21:26:43.179Z",
+      "updated": "2022-03-31T21:26:43.179Z"
+    }
+  },
+  {
+    "model": "budgets.category",
+    "pk": 10,
+    "fields": {
+      "title": "Personal Spending",
+      "description": "This category is a catchall for anything that could be considered a personal care or “lifestyle” expense. Personal spending includes things like: \r\n\r\ngym memberships\r\nclothes and shoes\r\nhome decor and furnishings\r\ngifts\r\n\r\nBecause some personal care products are essential, such as soap and laundry detergent, you might want to include those in your food budget category. After all, you probably buy those with your other groceries.",
+      "created": "2022-04-03T14:36:44.038Z",
+      "updated": "2022-04-03T14:36:44.038Z"
+    }
+  },
+  {
+    "model": "budgets.category",
+    "pk": 11,
+    "fields": {
+      "title": "Recreation & Entertainment",
+      "description": "This home budget category consists of your “fun money.” That’s important! \r\n\r\nFor most of us, carving out leisure time (and money) is essential to maintaining a healthy work-life balance. This budget category can include things like:\r\n\r\nconcert tickets\r\nsporting events\r\nfamily activities & vacations\r\nstreaming services and other subscriptions (e.g., Hulu and Netflix)\r\nrestaurants (if you didn’t include this under “Food”)\r\nvideo games\r\nhobbies",
+      "created": "2022-04-03T14:38:07.518Z",
+      "updated": "2022-04-03T14:38:07.518Z"
+    }
+  },
+  {
+    "model": "budgets.category",
+    "pk": 12,
+    "fields": {
+      "title": "Miscellaneous",
+      "description": "Finally, this home budget category is reserved for anything that isn’t already covered in your basic budget categories. It can also be an “overflow” category when you need a little extra somewhere else.\r\n\r\nFor example, if you have a larger family, you might spend a fair amount on clothes and haircuts for your kids. If you’ve maxed out your “Personal Monthly Expenses” category, you could account for those items here.\r\n\r\nOr maybe you’ve recently returned to school to get a degree. In that case, your tuition and textbook expenses could fall into this category.",
+      "created": "2022-04-03T14:38:55.486Z",
+      "updated": "2022-04-03T14:38:55.486Z"
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 1,
+    "fields": {
+      "description": "Chargement carte de crédit",
+      "amount": "115.33",
+      "date": "2022-03-01",
+      "is_positive": false,
+      "created": "2022-04-03T14:40:36.563Z",
+      "updated": "2022-04-03T14:40:36.563Z",
+      "budget": 1,
+      "category": 12,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 2,
+    "fields": {
+      "description": "SWDE eau",
+      "amount": "85.40",
+      "date": "2022-03-03",
+      "is_positive": false,
+      "created": "2022-04-03T14:41:22.702Z",
+      "updated": "2022-04-03T14:41:22.702Z",
+      "budget": 1,
+      "category": 5,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 3,
+    "fields": {
+      "description": "Pharmacie",
+      "amount": "24.90",
+      "date": "2022-04-03",
+      "is_positive": false,
+      "created": "2022-04-03T14:41:47.279Z",
+      "updated": "2022-04-03T14:41:47.279Z",
+      "budget": 1,
+      "category": 7,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 4,
+    "fields": {
+      "description": "Frais de gestion Belfius",
+      "amount": "5.50",
+      "date": "2022-03-04",
+      "is_positive": false,
+      "created": "2022-04-03T14:42:22.253Z",
+      "updated": "2022-04-03T14:42:22.253Z",
+      "budget": 1,
+      "category": 12,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 5,
+    "fields": {
+      "description": "Frais de gestion Belfius",
+      "amount": "0.81",
+      "date": "2022-03-04",
+      "is_positive": false,
+      "created": "2022-04-03T14:46:16.281Z",
+      "updated": "2022-04-03T14:46:16.281Z",
+      "budget": 1,
+      "category": 12,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 6,
+    "fields": {
+      "description": "Chargement carte de crédit mensuel",
+      "amount": "20.00",
+      "date": "2022-03-04",
+      "is_positive": false,
+      "created": "2022-04-03T14:46:46.918Z",
+      "updated": "2022-04-03T14:46:46.918Z",
+      "budget": 1,
+      "category": 12,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 7,
+    "fields": {
+      "description": "Spar Rochefort",
+      "amount": "4.81",
+      "date": "2022-03-04",
+      "is_positive": false,
+      "created": "2022-04-03T14:47:15.495Z",
+      "updated": "2022-04-03T14:47:15.495Z",
+      "budget": 1,
+      "category": 3,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 8,
+    "fields": {
+      "description": "Boulangerie Dumont",
+      "amount": "13.90",
+      "date": "2022-03-04",
+      "is_positive": false,
+      "created": "2022-04-03T14:47:58.870Z",
+      "updated": "2022-04-03T14:47:58.870Z",
+      "budget": 1,
+      "category": 3,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 9,
+    "fields": {
+      "description": "Aldi",
+      "amount": "13.94",
+      "date": "2022-03-07",
+      "is_positive": false,
+      "created": "2022-04-03T14:48:22.475Z",
+      "updated": "2022-04-03T14:48:22.475Z",
+      "budget": 1,
+      "category": 3,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 10,
+    "fields": {
+      "description": "Ordre permanant Fortis pension",
+      "amount": "85.00",
+      "date": "2022-03-07",
+      "is_positive": false,
+      "created": "2022-04-03T14:49:10.677Z",
+      "updated": "2022-04-03T14:49:10.677Z",
+      "budget": 1,
+      "category": 9,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 11,
+    "fields": {
+      "description": "Cindy enveloppe médecin",
+      "amount": "50.00",
+      "date": "2022-03-07",
+      "is_positive": false,
+      "created": "2022-04-03T14:49:45.527Z",
+      "updated": "2022-04-03T14:49:45.527Z",
+      "budget": 1,
+      "category": 7,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 12,
+    "fields": {
+      "description": "CGSLB",
+      "amount": "17.10",
+      "date": "2022-03-07",
+      "is_positive": false,
+      "created": "2022-04-03T14:50:30.408Z",
+      "updated": "2022-04-03T14:50:30.409Z",
+      "budget": 1,
+      "category": 12,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 13,
+    "fields": {
+      "description": "Dago délice",
+      "amount": "3.30",
+      "date": "2022-03-10",
+      "is_positive": false,
+      "created": "2022-04-03T14:50:57.417Z",
+      "updated": "2022-04-03T14:50:57.417Z",
+      "budget": 1,
+      "category": 4,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 14,
+    "fields": {
+      "description": "Achat OPC",
+      "amount": "100.00",
+      "date": "2022-03-11",
+      "is_positive": false,
+      "created": "2022-04-03T14:51:21.399Z",
+      "updated": "2022-04-03T14:51:21.399Z",
+      "budget": 1,
+      "category": 9,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 15,
+    "fields": {
+      "description": "Boulangerie Le panier à pain",
+      "amount": "8.05",
+      "date": "2022-03-11",
+      "is_positive": false,
+      "created": "2022-04-03T14:51:59.864Z",
+      "updated": "2022-04-03T14:51:59.864Z",
+      "budget": 1,
+      "category": 3,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 16,
+    "fields": {
+      "description": "Acinapolis",
+      "amount": "18.40",
+      "date": "2022-03-14",
+      "is_positive": false,
+      "created": "2022-04-03T14:52:39.470Z",
+      "updated": "2022-04-03T14:52:39.470Z",
+      "budget": 1,
+      "category": 11,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 17,
+    "fields": {
+      "description": "Epargne long terme",
+      "amount": "50.00",
+      "date": "2022-03-14",
+      "is_positive": false,
+      "created": "2022-04-03T14:53:08.021Z",
+      "updated": "2022-04-03T14:53:08.021Z",
+      "budget": 1,
+      "category": 9,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 18,
+    "fields": {
+      "description": "Hopital Bouge",
+      "amount": "12.00",
+      "date": "2022-03-17",
+      "is_positive": false,
+      "created": "2022-04-03T14:54:01.193Z",
+      "updated": "2022-04-03T14:54:01.193Z",
+      "budget": 1,
+      "category": 7,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 19,
+    "fields": {
+      "description": "Boulangerie",
+      "amount": "7.10",
+      "date": "2022-03-17",
+      "is_positive": false,
+      "created": "2022-04-03T14:54:35.212Z",
+      "updated": "2022-04-03T14:54:35.212Z",
+      "budget": 1,
+      "category": 3,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 20,
+    "fields": {
+      "description": "Takeaway Ramen",
+      "amount": "32.00",
+      "date": "2022-03-18",
+      "is_positive": false,
+      "created": "2022-04-03T14:55:02.965Z",
+      "updated": "2022-04-03T14:55:02.965Z",
+      "budget": 1,
+      "category": 4,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 21,
+    "fields": {
+      "description": "MediaMarkt Cindy",
+      "amount": "55.99",
+      "date": "2022-03-21",
+      "is_positive": false,
+      "created": "2022-04-03T14:55:37.269Z",
+      "updated": "2022-04-03T14:55:37.269Z",
+      "budget": 1,
+      "category": 10,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 22,
+    "fields": {
+      "description": "Carrefour Jambe",
+      "amount": "8.14",
+      "date": "2022-03-21",
+      "is_positive": false,
+      "created": "2022-04-03T14:56:02.568Z",
+      "updated": "2022-04-03T14:56:02.568Z",
+      "budget": 1,
+      "category": 3,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 23,
+    "fields": {
+      "description": "Proximus",
+      "amount": "89.49",
+      "date": "2022-03-21",
+      "is_positive": false,
+      "created": "2022-04-03T14:56:26.899Z",
+      "updated": "2022-04-03T14:56:26.899Z",
+      "budget": 1,
+      "category": 5,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 24,
+    "fields": {
+      "description": "Total Energie",
+      "amount": "199.04",
+      "date": "2022-03-21",
+      "is_positive": false,
+      "created": "2022-04-03T14:56:53.740Z",
+      "updated": "2022-04-03T14:56:53.740Z",
+      "budget": 1,
+      "category": 5,
+      "owner": 1
+    }
+  },
+  {
+    "model": "budgets.entry",
+    "pk": 25,
+    "fields": {
+      "description": "Hopital Bouge",
+      "amount": "27.00",
+      "date": "2022-03-21",
+      "is_positive": false,
+      "created": "2022-04-03T14:57:18.852Z",
+      "updated": "2022-04-03T14:57:18.852Z",
+      "budget": 1,
+      "category": 7,
+      "owner": 1
+    }
+  }
+]

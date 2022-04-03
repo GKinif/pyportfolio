@@ -8,7 +8,7 @@ import {
   LoaderFunction,
   useSearchParams,
 } from "remix";
-import { getSession, commitSession } from "../session";
+import { getSession, commitSession } from "~/session";
 import {
   Button,
   Paper,

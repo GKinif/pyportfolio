@@ -1,0 +1,17 @@
+[
+  {
+    "model": "accounts.customuser",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$320000$dJHdDg5TpQQYH3oY1H3qfn$PliBDnOH8DV5J4sMbn2YsFyPKZRb+UwA6i4rlv/r1a0=",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-03-31T21:20:26.641Z",
+      "email": "test@test.com",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]

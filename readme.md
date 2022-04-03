@@ -24,6 +24,14 @@
 
 > docker compose exec web poetry add [package]
 
+
+## Run project for the first time
+
+> poetry run python manage.py migrate
+> poetry run python manage.py createsuperuser
+> poetry run python manage.py loaddata users.json
+> poetry run python manage.py loaddata categories.json
+
 ## Source
 
 - Django 3 by Example

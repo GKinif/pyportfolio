@@ -41,6 +41,7 @@ export const Navigation = ({ currentUser, onLogout }: Props) => {
 
         <Group sx={{ flex: 1 }}>
           <AppLink to="/snippets">Snippets</AppLink>
+          <AppLink to="/budgets">Budgets</AppLink>
         </Group>
 
         <Group>
