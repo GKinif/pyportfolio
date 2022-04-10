@@ -6,13 +6,8 @@ import {
   useActionData,
   Form,
   useTransition,
-  useSearchParams,
-  useFetcher,
   Outlet,
   useCatch,
-  Meta,
-  Links,
-  Scripts,
   redirect,
   Link,
 } from "remix";
@@ -21,11 +16,9 @@ import {
   Group,
   NativeSelect,
   NumberInput,
-  Pagination,
   Paper,
   Radio,
   RadioGroup,
-  Table,
   Text,
   TextInput,
   Title,
@@ -39,8 +32,6 @@ import {
   ApiCategory,
   EntryData,
   getBudget,
-  getBudgetEntries,
-  getBudgetEntriesResponse,
   getCategories,
 } from "~/services/budgets";
 import { commitSession, getSession } from "~/session";
@@ -56,9 +47,7 @@ import {
 import { createNotification } from "~/components/Notification";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import dayjs from "dayjs";
-import { useState } from "react";
-import { MantineTheme } from "@mantine/styles/lib/theme/types/MantineTheme";
-import { DataFunctionArgs } from "@remix-run/server-runtime/routeModules";
+import { useEffect, useRef, useState } from "react";
 
 dayjs.extend(customParseFormat);
 
@@ -99,15 +88,20 @@ export const action: ActionFunction = async ({ request }) => {
     createNotification(session, {
       severity: "success",
       title: "Congratulation",
-      message: "New entry successfuly added to budget.",
+      message: `response.data.description added to budget.`,
     });
 
     // Login succeeded, send them to the home page.
-    return json(response.data, {
-      headers: {
-        "Set-Cookie": await commitSession(session),
+    return json(
+      {
+        data: response.data,
       },
-    });
+      {
+        headers: {
+          "Set-Cookie": await commitSession(session),
+        },
+      }
+    );
   } catch (error: any) {
     if (error.response) {
       // The request was made and the server responded with a status code
@@ -164,7 +158,15 @@ export default function Budget() {
   const { budget, categories } = useLoaderData<Data>();
   const actionData = useActionData();
   const [opened, setOpen] = useState(false);
-  const loading = transition.state === "submitting";
+  const isSubmitting = transition.state === "submitting";
+  const descriptionRef = useRef<HTMLInputElement>();
+
+  useEffect(() => {
+    if (!isSubmitting && descriptionRef.current) {
+      descriptionRef.current.value = "";
+      descriptionRef.current.focus();
+    }
+  }, [isSubmitting]);
 
   return (
     <main>
@@ -192,6 +194,7 @@ export default function Budget() {
           <Form method="post">
             <input type="hidden" name="budget" value={budget.id} />
             <TextInput
+              ref={descriptionRef as any}
               name="description"
               placeholder="Description..."
               label="Description"
@@ -283,8 +286,8 @@ export default function Budget() {
             </RadioGroup>
 
             <Group>
-              <Button type="submit" variant="outline" disabled={loading}>
-                {transition.state === "submitting" ? "Submitting..." : "Submit"}
+              <Button type="submit" variant="outline" disabled={isSubmitting}>
+                {isSubmitting ? "Submitting..." : "Submit"}
               </Button>
 
               {actionData?.errors?.detail ? (
