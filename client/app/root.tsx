@@ -7,11 +7,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
   useLoaderData,
   useSubmit,
 } from "remix";
 import type { MetaFunction } from "remix";
-import { AppShell, Container, MantineProvider } from "@mantine/core";
+import { AppShell, Container, MantineProvider, Text } from "@mantine/core";
 import { Navigation } from "~/components/Navigation";
 import { commitSession, getSession } from "~/session";
 import { getCurrentUser } from "~/services/auth";
@@ -113,5 +114,52 @@ export default function App() {
         <LiveReload />
       </body>
     </html>
+  );
+}
+
+function Document({
+  children,
+  title = `Budget`,
+}: {
+  children: React.ReactNode;
+  title?: string;
+}) {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <title>{title}</title>
+        <Links />
+      </head>
+      <body>
+        {children}
+        <LiveReload />
+      </body>
+    </html>
+  );
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+
+  return (
+    <Document title={`${caught.status} ${caught.statusText}`}>
+      <div className="error-container">
+        <h1>
+          {caught.status} {caught.statusText}
+        </h1>
+      </div>
+    </Document>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <Document title="Uh-oh!">
+      <div className="error-container">
+        <h1>App Error</h1>
+        <pre>{error.message}</pre>
+      </div>
+    </Document>
   );
 }

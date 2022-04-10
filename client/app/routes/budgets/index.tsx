@@ -1,24 +1,22 @@
 import { json, Link, redirect, useLoaderData } from "remix";
 import { Anchor, List } from "@mantine/core";
 
-import {getBudgets, getBudgetsResponse} from "~/services/budgets";
+import { getBudgets, getBudgetsResponse } from "~/services/budgets";
 
 export const loader = async () => {
   try {
     const response = await getBudgets();
     return json(response.data);
   } catch (error: any) {
-    if (error.response.status === 401) {
-      return redirect("/login?backTo=/snippets");
+    if (error.response?.status === 401) {
+      return redirect("/login?backTo=/budgets");
     }
     return redirect("/");
   }
 };
 
-export default function Snippets() {
+export default function Budgets() {
   const budgets = useLoaderData<getBudgetsResponse>();
-
-  console.log('budgets: ', budgets)
 
   return (
     <main>

@@ -32,6 +32,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = None
 
 
 class EntryFilter(filters.FilterSet):
@@ -59,3 +60,6 @@ class EntryViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         return Entry.objects.filter(owner=user)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)

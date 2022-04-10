@@ -3,12 +3,14 @@ from .models import Budget, Category, Entry
 
 
 class EntrySerializer(serializers.HyperlinkedModelSerializer):
-    budget = serializers.ReadOnlyField(source='budget.id')
-    category = serializers.ReadOnlyField(source='category.title')
+    budget = serializers.PrimaryKeyRelatedField(queryset=Budget.objects.all(), read_only=False)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), read_only=False)
+    owner = serializers.ReadOnlyField(source='owner.email')
 
     class Meta:
         model = Entry
-        fields = ['id', 'description', 'amount', 'date', 'is_positive', 'created', 'updated', 'budget', 'category']
+        fields = ['id', 'description', 'amount', 'date', 'is_positive', 'created', 'updated', 'budget', 'category',
+                  'owner']
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
