@@ -3,6 +3,7 @@ from django_filters import rest_framework as filters
 
 from .models import Budget, Category, Entry
 from .serializers import BudgetSerializer, BudgetWithEntriesSerializer, CategorySerializer, EntrySerializer
+from .filters import EntryFilter
 
 
 class BudgetViewSet(viewsets.ModelViewSet):
@@ -33,19 +34,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
     pagination_class = None
-
-
-class EntryFilter(filters.FilterSet):
-    # min_price = filters.NumberFilter(field_name="amount", lookup_expr='gte')
-    # max_price = filters.NumberFilter(field_name="amount", lookup_expr='lte')
-
-    class Meta:
-        model = Entry
-        # fields = ['category', 'min_price', 'max_price']
-        fields = {
-            'category': ['exact'],
-            'amount': ['gte', 'lte'],
-        }
 
 
 class EntryViewSet(viewsets.ModelViewSet):
