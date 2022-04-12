@@ -249,7 +249,7 @@ export default function Budget() {
               <DatePicker
                 name="date"
                 placeholder="Pick date"
-                label="Event date"
+                label="Date"
                 defaultValue={actionData?.values?.date ?? new Date()}
                 disabled={transition.state === "submitting"}
                 required
@@ -316,7 +316,8 @@ export function CatchBoundary() {
   }
 }
 
-export function ErrorBoundary() {
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.log("error: ", error);
   return (
     <div className="error-container">
       Something unexpected went wrong. Sorry about that.

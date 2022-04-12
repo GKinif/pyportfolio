@@ -9,9 +9,18 @@ class EntryFilter(filters.FilterSet):
     # date__lte = filters.IsoDateTimeFilter(field_name='date', lookup_expr='lte')
     # year__lte = filters.IsoDateTimeFilter(field_name='date', lookup_expr='year__lte')
 
+    order = filters.OrderingFilter(
+        # tuple-mapping retains order
+        fields=(
+            ('description', 'description'),
+            ('date', 'date'),
+            ('amount', 'amount'),
+        ),
+    )
+
     class Meta:
         model = Entry
         fields = {
-            'amount': ['lt', 'gt'],
+            'amount': ['lte', 'gte'],
             'date': ['exact', 'lte', 'gte', 'year', 'month'],
         }

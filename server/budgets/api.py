@@ -1,9 +1,9 @@
 from rest_framework import viewsets, permissions
-from django_filters import rest_framework as filters
 
 from .models import Budget, Category, Entry
 from .serializers import BudgetSerializer, BudgetWithEntriesSerializer, CategorySerializer, EntrySerializer
 from .filters import EntryFilter
+from .permissions import IsOwnerOrReadOnly
 
 
 class BudgetViewSet(viewsets.ModelViewSet):
@@ -13,7 +13,7 @@ class BudgetViewSet(viewsets.ModelViewSet):
     """
     queryset = Budget.objects.all()
     #serializer_class = BudgetSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -32,7 +32,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
     pagination_class = None
 
 
@@ -42,7 +42,7 @@ class EntryViewSet(viewsets.ModelViewSet):
     `update` and `destroy` actions.
     """
     serializer_class = EntrySerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
     filterset_class = EntryFilter
 
     def get_queryset(self):

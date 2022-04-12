@@ -78,8 +78,21 @@ export interface getBudgetEntriesResponse {
   results: ApiEntry[];
 }
 
+export interface GetBudgetEntriesParams {
+  amount__lte?: string;
+  amount__gte?: string;
+  date?: string; // '2022-02-01'
+  date__lte?: string; // '2022-02-01'
+  date__gte?: string; // '2022-02-01'
+  date__year?: string;
+  date__month?: string;
+  description?: string;
+  order?: string; // description, amount, date
+}
+
 export const getBudgetEntries = async (
-  page = 1
+  page = 1,
+  params?: GetBudgetEntriesParams
 ): Promise<AxiosResponse<getBudgetEntriesResponse>> => {
-  return axiosInstance.get(`/api/budgets/entries?page=${page}`);
+  return axiosInstance.get(`/api/budgets/entries?page=${page}`, { params });
 };
