@@ -143,7 +143,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       categories: categoriesResponse.data,
     });
   } catch (error: any) {
-    if (error.response.status === 401) {
+    if (error.response?.status === 401) {
       return redirect(`/login?backTo=/budgets/${params.id}`);
     }
     throw new Response("Request Error", {
@@ -306,7 +306,9 @@ export default function Budget() {
 export function CatchBoundary() {
   const caught = useCatch();
 
-  if (caught.status === 404) {
+  console.log("caught: ", caught);
+
+  if (caught?.status === 404) {
     return (
       <div className="error-container">
         <p>This budget does not exist.</p>
@@ -314,6 +316,13 @@ export function CatchBoundary() {
       </div>
     );
   }
+
+  return (
+    <div className="error-container">
+      <p>An error happened while retrieving this budget</p>
+      <Link to="/budgets">Back to Budgets</Link>
+    </div>
+  );
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {

@@ -1,4 +1,6 @@
 from rest_framework import serializers, pagination
+from rest_framework.exceptions import ValidationError
+
 from .models import Budget, Category, Entry
 
 
@@ -12,13 +14,21 @@ class EntrySerializer(serializers.HyperlinkedModelSerializer):
         fields = ['id', 'description', 'amount', 'date', 'is_positive', 'created', 'updated', 'budget', 'category',
                   'owner']
 
+    def validate_budget(self, value):
+        print(self.context['request'].user)
+        print(value.owner)
+        user_id = self.context['request'].user.id
+
+        if value.owner.id != user_id:
+            raise ValidationError({'budget': 'Budget must belong to the user'})
+        return value
+
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
-    entries = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Category
-        fields = ['id', 'title', 'description', 'created', 'updated', 'entries']
+        fields = ['id', 'title', 'description', 'created', 'updated']
 
 
 class BudgetSerializer(serializers.HyperlinkedModelSerializer):
