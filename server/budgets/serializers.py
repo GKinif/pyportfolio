@@ -25,7 +25,6 @@ class EntrySerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
-
     class Meta:
         model = Category
         fields = ['id', 'title', 'description', 'created', 'updated']
@@ -42,10 +41,13 @@ class BudgetSerializer(serializers.HyperlinkedModelSerializer):
 class BudgetWithEntriesSerializer(serializers.HyperlinkedModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.email')
     entries = serializers.SerializerMethodField('paginated_entries')
+    total_entries = serializers.IntegerField()
+    total_amount = serializers.IntegerField()
 
     class Meta:
         model = Budget
-        fields = ['id', 'title', 'description', 'created', 'updated', 'owner', 'entries']
+        fields = ['id', 'title', 'description', 'created', 'updated', 'owner', 'total_entries', 'total_amount',
+                  'entries']
 
     def paginated_entries(self, obj):
         entries = Entry.objects.filter(budget=obj)
@@ -53,3 +55,10 @@ class BudgetWithEntriesSerializer(serializers.HyperlinkedModelSerializer):
         page = paginator.paginate_queryset(entries, self.context['request'])
         serializer = EntrySerializer(page, many=True, context={'request': self.context['request']})
         return serializer.data
+
+
+class BudgetOverviewSerializer(serializers.Serializer):
+    category__title = serializers.StringRelatedField()
+    positive_sum = serializers.DecimalField(max_digits=19, decimal_places=2)
+    negative_sum = serializers.DecimalField(max_digits=19, decimal_places=2)
+

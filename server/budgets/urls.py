@@ -10,5 +10,6 @@ router.register(r'entries', api.EntryViewSet, basename='entries')
 
 # The API URLs are now determined automatically by the router.
 urlpatterns = [
+    path('budgets/<int:budget_id>/overview/', api.budget_overview, name='budget_overview'),
     path('', include(router.urls)),
 ]

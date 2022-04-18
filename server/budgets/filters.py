@@ -24,3 +24,10 @@ class EntryFilter(filters.FilterSet):
             'amount': ['lte', 'gte'],
             'date': ['exact', 'lte', 'gte', 'year', 'month'],
         }
+
+    @property
+    def qs(self):
+        parent = super().qs
+        owner = getattr(self.request, 'user', None)
+
+        return parent.filter(owner=owner)
