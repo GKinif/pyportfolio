@@ -96,3 +96,17 @@ export const getBudgetEntries = async (
 ): Promise<AxiosResponse<getBudgetEntriesResponse>> => {
   return axiosInstance.get(`/api/budgets/entries?page=${page}`, { params });
 };
+
+export type CategoryOverview = {
+  category__title: string;
+  positive_sum: string | null;
+  negative_sum: string | null;
+}
+export type getBudgetOverviewResponse  = CategoryOverview[];
+
+export const getBudgetOverview = async (
+  budgetId: string,
+  params?: GetBudgetEntriesParams
+): Promise<AxiosResponse<getBudgetOverviewResponse>> => {
+  return axiosInstance.get(`/api/budgets/budgets/${budgetId}/overview`, { params });
+};

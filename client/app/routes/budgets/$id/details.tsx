@@ -90,7 +90,6 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   searchParams.delete("search");
 
-  console.log("searchParams.toString(): ", searchParams.toString());
   return redirect(`/budgets/${params.id}/details?${searchParams.toString()}`);
 };
 

@@ -306,7 +306,7 @@ export default function Budget() {
 export function CatchBoundary() {
   const caught = useCatch();
 
-  console.log("caught: ", caught);
+  console.log("CatchBoundary: ", caught);
 
   if (caught?.status === 404) {
     return (
@@ -326,7 +326,7 @@ export function CatchBoundary() {
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
-  console.log("error: ", error);
+  console.log("ErrorBoundary: ", error);
   return (
     <div className="error-container">
       Something unexpected went wrong. Sorry about that.
