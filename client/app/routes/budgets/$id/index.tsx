@@ -11,12 +11,14 @@ import {
 } from "remix";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveBar } from "@nivo/bar";
+import Color from "color";
 
 import { CategoryOverview, getBudgetOverview } from "~/services/budgets";
 import { Box, useMantineTheme, Text } from "@mantine/core";
 import dayjs from "dayjs";
 import { getEntrySearchParams } from "~/utils/entryFilters";
 import { EntryFilters } from "~/components/EntryFilters";
+import { stringToColour } from "~/utils/color";
 
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData();
@@ -115,7 +117,7 @@ export default function BudgetOverview() {
             indexBy="month"
             margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
             padding={0.2}
-            colors={{ scheme: "nivo" }}
+            colors={({ id, data }) => stringToColour(`${id}`)}
             axisBottom={{
               tickSize: 5,
               tickPadding: 5,
@@ -134,7 +136,11 @@ export default function BudgetOverview() {
             }}
             labelSkipWidth={12}
             labelSkipHeight={12}
-            labelTextColor={{ from: "color", modifiers: [["darker", 1.6]] }}
+            labelTextColor={(datum) =>
+              Color(stringToColour(`${datum.data.id}`)).isLight()
+                ? "black"
+                : "white"
+            }
             legends={[
               {
                 dataFrom: "keys",
@@ -169,6 +175,7 @@ export default function BudgetOverview() {
           <ResponsivePie
             data={data.categories}
             id="category__title"
+            colors={{ scheme: "set3" }}
             value={(v: CategoryOverview) => parseFloat(v.negative_sum ?? "0")}
             valueFormat={(v) => `${v}€`}
             margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
