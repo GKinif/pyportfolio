@@ -1,4 +1,5 @@
 from django.db.models import Count, Sum, Q
+from django.db.models.functions import TruncDay, TruncMonth
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -6,7 +7,7 @@ from django_filters.utils import translate_validation
 
 from .models import Budget, Category, Entry
 from .serializers import BudgetSerializer, CategorySerializer, EntrySerializer, \
-    BudgetOverviewSerializer
+    BudgetOverviewSumSerializer, BudgetOverviewMonthlySumSerializer
 from .filters import EntryFilter
 from .permissions import IsOwner, IsAdminUserOrReadOnly
 
@@ -70,8 +71,11 @@ def budget_overview(request, budget_id):
         positive_sum=Sum('amount', filter=Q(is_positive=True)),
         negative_sum=Sum('amount', filter=Q(is_positive=False)), )
 
-    print('SUMS: ', sums)
+    rollover = f.qs.annotate(month=TruncMonth("date")).values("month", "category__title").annotate(
+        positive_sum=Sum('amount', filter=Q(is_positive=True)),
+        negative_sum=Sum('amount', filter=Q(is_positive=False)), ).order_by('month')
 
-    serializer = BudgetOverviewSerializer(sums, many=True)
+    sum_serializer = BudgetOverviewSumSerializer(sums, many=True)
+    month_serializer = BudgetOverviewMonthlySumSerializer(rollover, many=True)
 
-    return Response(serializer.data)
+    return Response({'categories': sum_serializer.data, 'months': month_serializer.data})

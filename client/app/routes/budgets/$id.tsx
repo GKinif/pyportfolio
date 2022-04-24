@@ -88,7 +88,7 @@ export const action: ActionFunction = async ({ request }) => {
     createNotification(session, {
       severity: "success",
       title: "Congratulation",
-      message: `response.data.description added to budget.`,
+      message: `${response.data.description} added to budget.`,
     });
 
     // Login succeeded, send them to the home page.

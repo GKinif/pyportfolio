@@ -57,7 +57,14 @@ class BudgetWithEntriesSerializer(serializers.HyperlinkedModelSerializer):
         return serializer.data
 
 
-class BudgetOverviewSerializer(serializers.Serializer):
+class BudgetOverviewSumSerializer(serializers.Serializer):
+    category__title = serializers.StringRelatedField()
+    positive_sum = serializers.DecimalField(max_digits=19, decimal_places=2)
+    negative_sum = serializers.DecimalField(max_digits=19, decimal_places=2)
+
+
+class BudgetOverviewMonthlySumSerializer(serializers.Serializer):
+    month = serializers.DateField()
     category__title = serializers.StringRelatedField()
     positive_sum = serializers.DecimalField(max_digits=19, decimal_places=2)
     negative_sum = serializers.DecimalField(max_digits=19, decimal_places=2)

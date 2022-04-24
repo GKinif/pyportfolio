@@ -38,6 +38,8 @@ import { useState } from "react";
 import { DatePicker } from "@mantine/dates";
 import { range } from "~/utils/number";
 import dayjs from "dayjs";
+import {EntryFilters} from "~/components/EntryFilters";
+import {getEntrySearchParams} from "~/utils/entryFilters";
 
 const dateFormatter = new Intl.DateTimeFormat("default", {
   year: "numeric",
@@ -101,17 +103,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     const pageParam = parseInt(url.searchParams.get("page") ?? "");
     const page = isNaN(pageParam) ? 1 : pageParam;
 
-    const searchParams: GetBudgetEntriesParams = {
-      amount__lte: url.searchParams.get("amount__lte") ?? undefined,
-      amount__gte: url.searchParams.get("amount__gte") ?? undefined,
-      date: url.searchParams.get("date") ?? undefined,
-      date__lte: url.searchParams.get("date__lte") ?? undefined,
-      date__gte: url.searchParams.get("date__gte") ?? undefined,
-      date__year: url.searchParams.get("date__year") ?? undefined,
-      date__month: url.searchParams.get("date__month") ?? undefined,
-      description: url.searchParams.get("description") ?? undefined,
-      order: url.searchParams.get("order") ?? undefined,
-    };
+    const searchParams = getEntrySearchParams(url.searchParams);
 
     const entriesResponse = await getBudgetEntries(page, searchParams);
 
@@ -133,7 +125,6 @@ export default function BudgetDetails() {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = getCurrentPage(searchParams);
   const currentOrder = searchParams.get("order");
-  const [showFilters, setShowFilters] = useState(false);
   const isSubmitting = transition.state === "submitting";
 
   return (
@@ -142,162 +133,7 @@ export default function BudgetDetails() {
         <Link to={`/budgets/${params.id}`}>Budget overview</Link>
       </Text>
 
-      <Button
-        sx={{ marginBottom: theme.spacing.xs }}
-        onClick={() => setShowFilters((prev) => !prev)}
-      >
-        Filter
-      </Button>
-
-      <Collapse in={showFilters}>
-        <Paper
-          shadow="sm"
-          p="md"
-          withBorder
-          sx={{ marginBottom: theme.spacing.xs }}
-        >
-          <Form method="post">
-            <input
-              type="hidden"
-              name="search"
-              value={searchParams.toString()}
-            />
-            <TextInput
-              name="description"
-              placeholder="Description..."
-              label="Description"
-              error={
-                actionData?.errors?.fieldErrors?.description ??
-                actionData?.errors?.description
-              }
-              defaultValue={actionData?.values?.description}
-              disabled={transition.state === "submitting"}
-              sx={{ paddingBottom: theme.spacing.xs }}
-            />
-
-            <Group>
-              <NumberInput
-                name="amount__gte"
-                placeholder="10.56"
-                label="Minimum amount"
-                min={0}
-                step={0.01}
-                precision={2}
-                decimalSeparator="."
-                error={
-                  actionData?.errors?.fieldErrors?.amount__gte ??
-                  actionData?.errors?.amount__gte
-                }
-                defaultValue={actionData?.values?.amount__gte}
-                disabled={transition.state === "submitting"}
-                sx={{ paddingBottom: theme.spacing.xs }}
-              />
-
-              <NumberInput
-                name="amount__lte"
-                placeholder="10.56"
-                label="Maximum amount"
-                min={0}
-                step={0.01}
-                precision={2}
-                decimalSeparator="."
-                error={
-                  actionData?.errors?.fieldErrors?.amount__lte ??
-                  actionData?.errors?.amount__lte
-                }
-                defaultValue={actionData?.values?.amount__lte}
-                disabled={transition.state === "submitting"}
-                sx={{ paddingBottom: theme.spacing.xs }}
-              />
-            </Group>
-
-            <Group>
-              <DatePicker
-                name="date__gte"
-                placeholder="Pick date"
-                label="From"
-                defaultValue={actionData?.values?.date ?? undefined}
-                disabled={transition.state === "submitting"}
-                error={
-                  actionData?.errors?.fieldErrors?.date ??
-                  actionData?.errors?.date
-                }
-                sx={{ marginBottom: theme.spacing.xs }}
-              />
-              <DatePicker
-                name="date__lte"
-                placeholder="Pick date"
-                label="To"
-                defaultValue={actionData?.values?.date ?? undefined}
-                disabled={transition.state === "submitting"}
-                error={
-                  actionData?.errors?.fieldErrors?.date ??
-                  actionData?.errors?.date
-                }
-                sx={{ marginBottom: theme.spacing.xs }}
-              />
-
-              <NativeSelect
-                name="date__month"
-                label="Month"
-                placeholder="Pick one"
-                defaultValue={actionData?.values?.date__month}
-                disabled={transition.state === "submitting"}
-                error={
-                  actionData?.errors?.fieldErrors?.date__month ??
-                  actionData?.errors?.date__month
-                }
-                sx={{ marginBottom: theme.spacing.xs }}
-                data={[
-                  { label: "---", value: "" },
-                  { label: "January", value: "1" },
-                  { label: "February", value: "2" },
-                  { label: "March", value: "3" },
-                  { label: "April", value: "4" },
-                  { label: "May", value: "5" },
-                  { label: "June", value: "6" },
-                  { label: "July", value: "7" },
-                  { label: "August", value: "8" },
-                  { label: "September", value: "9" },
-                  { label: "October", value: "10" },
-                  { label: "November", value: "11" },
-                  { label: "December", value: "12" },
-                ]}
-              />
-
-              <NativeSelect
-                name="date__year"
-                label="Year"
-                placeholder="Pick one"
-                defaultValue={actionData?.values?.date__year}
-                disabled={transition.state === "submitting"}
-                error={
-                  actionData?.errors?.fieldErrors?.date__year ??
-                  actionData?.errors?.date__year
-                }
-                sx={{ marginBottom: theme.spacing.xs }}
-                data={[
-                  { label: "---", value: "" },
-                  ...range(2000, 2022).map((value) => ({
-                    label: "" + value,
-                    value: "" + value,
-                  })),
-                ]}
-              />
-            </Group>
-
-            <Group>
-              <Button type="submit" variant="outline" disabled={isSubmitting}>
-                {isSubmitting ? "Submitting..." : "Submit"}
-              </Button>
-
-              {actionData?.errors?.detail ? (
-                <Text color="red">{actionData?.errors.detail}</Text>
-              ) : null}
-            </Group>
-          </Form>
-        </Paper>
-      </Collapse>
+      <EntryFilters filterData={actionData} isSubmitting={isSubmitting} />
 
       <Pagination
         page={currentPage}

@@ -61,7 +61,7 @@ export interface EntryData {
 
 export const addEntryToBudget = async (
   data: EntryData
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<EntryData>> => {
   return axiosInstance.post(`/api/budgets/entries/`, data);
 };
 
@@ -102,7 +102,14 @@ export type CategoryOverview = {
   positive_sum: string | null;
   negative_sum: string | null;
 }
-export type getBudgetOverviewResponse  = CategoryOverview[];
+
+export type MonthOverview =  CategoryOverview & {
+  month: string;
+}
+export type getBudgetOverviewResponse  = {
+  categories: CategoryOverview[];
+  months: MonthOverview[];
+};
 
 export const getBudgetOverview = async (
   budgetId: string,
