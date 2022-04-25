@@ -5,6 +5,7 @@ import {
   LoaderFunction,
   redirect,
   useActionData,
+  useOutletContext,
   useLoaderData,
   useParams,
   useTransition,
@@ -56,6 +57,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 interface LoaderData {
   categories: CategoryOverview[];
   months: Record<string, string | number>[];
+  totalSum: number;
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -68,14 +70,19 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   const overviewResponse = await getBudgetOverview(params.id, searchParams);
 
+  let sum = 0;
+
   const transformed = overviewResponse.data.months.reduce(
     (acc: Record<string, Record<string, number | string>>, val) => {
       const prevData = acc[val.month] ?? {};
+      const negative_sum = parseFloat(val.negative_sum ?? "0");
+      const positive_sum = parseFloat(val.positive_sum ?? "0");
+      sum = sum + negative_sum + positive_sum;
       return {
         ...acc,
         [val.month]: {
           ...prevData,
-          [val.category__title]: val.negative_sum ?? 0,
+          [val.category__title]: negative_sum + positive_sum,
         },
       };
     },
@@ -86,16 +93,39 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     return { ...value, month: key };
   });
 
-  return json({ categories: overviewResponse.data.categories, months });
+  return json({
+    categories: overviewResponse.data.categories,
+    months,
+    totalSum: sum,
+  });
 };
+
+import type { ContextType } from "../$id";
+import { useMemo } from "react";
+import { isEmpty, isNil } from "ramda";
 
 export default function BudgetOverview() {
   const theme = useMantineTheme();
   const transition = useTransition();
   const data = useLoaderData<LoaderData>();
+  const { budget } = useOutletContext<ContextType>();
   const actionData = useActionData();
   const params = useParams();
   const isSubmitting = transition.state === "submitting";
+
+  const maxPieAngle = useMemo(() => {
+    const parsed = parseFloat(budget?.base);
+    if (
+      isNil(data?.months) ||
+      isEmpty(data.months) ||
+      data.months.length > 1 ||
+      isNil(parsed)
+    ) {
+      return 360;
+    }
+
+    return Math.min((data.totalSum / parsed) * 360, 360);
+  }, [budget, data]);
 
   return (
     <section>
@@ -118,6 +148,15 @@ export default function BudgetOverview() {
             margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
             padding={0.2}
             colors={({ id, data }) => stringToColour(`${id}`)}
+            markers={[
+              {
+                axis: "y",
+                value: 2000,
+                lineStyle: { stroke: "rgba(0, 0, 0, .35)", strokeWidth: 2 },
+                legend: "Base",
+                legendOrientation: "vertical",
+              },
+            ]}
             axisBottom={{
               tickSize: 5,
               tickPadding: 5,
@@ -179,6 +218,7 @@ export default function BudgetOverview() {
             value={(v: CategoryOverview) => parseFloat(v.negative_sum ?? "0")}
             valueFormat={(v) => `${v}€`}
             margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+            endAngle={maxPieAngle}
             innerRadius={0.7}
             padAngle={1}
             cornerRadius={3}

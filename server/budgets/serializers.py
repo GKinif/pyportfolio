@@ -35,7 +35,7 @@ class BudgetSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Budget
-        fields = ['id', 'title', 'description', 'created', 'updated', 'owner']
+        fields = ['id', 'title', 'description', 'base', 'created', 'updated', 'owner']
 
 
 class BudgetWithEntriesSerializer(serializers.HyperlinkedModelSerializer):
@@ -46,7 +46,7 @@ class BudgetWithEntriesSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Budget
-        fields = ['id', 'title', 'description', 'created', 'updated', 'owner', 'total_entries', 'total_amount',
+        fields = ['id', 'title', 'description', 'base', 'created', 'updated', 'owner', 'total_entries', 'total_amount',
                   'entries']
 
     def paginated_entries(self, obj):

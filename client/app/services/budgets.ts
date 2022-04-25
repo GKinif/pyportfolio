@@ -25,6 +25,7 @@ export type ApiBudget = {
   id: number;
   title: string;
   description?: string;
+  base: string;
   date: string;
   is_positive: boolean;
   created: string;
@@ -101,12 +102,12 @@ export type CategoryOverview = {
   category__title: string;
   positive_sum: string | null;
   negative_sum: string | null;
-}
+};
 
-export type MonthOverview =  CategoryOverview & {
+export type MonthOverview = CategoryOverview & {
   month: string;
-}
-export type getBudgetOverviewResponse  = {
+};
+export type getBudgetOverviewResponse = {
   categories: CategoryOverview[];
   months: MonthOverview[];
 };
@@ -115,5 +116,7 @@ export const getBudgetOverview = async (
   budgetId: string,
   params?: GetBudgetEntriesParams
 ): Promise<AxiosResponse<getBudgetOverviewResponse>> => {
-  return axiosInstance.get(`/api/budgets/budgets/${budgetId}/overview`, { params });
+  return axiosInstance.get(`/api/budgets/budgets/${budgetId}/overview`, {
+    params,
+  });
 };

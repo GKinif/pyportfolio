@@ -62,6 +62,10 @@ const entrySchema = object({
   is_positive: preprocess((val) => val === "true", boolean()),
 });
 
+export type ContextType = {
+  budget: ApiBudget;
+};
+
 export const action: ActionFunction = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
 
@@ -298,7 +302,7 @@ export default function Budget() {
         </Paper>
       </Collapse>
 
-      <Outlet />
+      <Outlet context={{ budget } as ContextType} />
     </main>
   );
 }
